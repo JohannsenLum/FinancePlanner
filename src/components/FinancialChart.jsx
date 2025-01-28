@@ -1,6 +1,6 @@
 import { ComposedChart, Bar, Line, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from "recharts";
 
-const FinancialChart = ({ longTermData, showSavingsLine }) => {
+const FinancialChart = ({ longTermData }) => {
   return (
     <ComposedChart
       width={800}
@@ -13,10 +13,27 @@ const FinancialChart = ({ longTermData, showSavingsLine }) => {
       <YAxis />
       <Tooltip />
       <Legend />
-      <Bar dataKey="cashUsed" stackId="a" fill="#ff8042" />
-      {showSavingsLine && (
-        <Line type="monotone" dataKey="savings" stroke="#82ca9d" />
-      )}
+      <Bar dataKey="incomeUsed" stackId="a" fill="#ff8042" name="Income Used" />
+      <Bar dataKey="shortfall" stackId="a" fill="#ff0000" name="Shortfall" />
+      <Line
+        type="monotone"
+        dataKey="savings"
+        stroke="#82ca9d"
+        strokeDasharray="5 5"
+        name="Savings"
+      />
+      <Line
+        type="monotone"
+        dataKey="passiveIncome"
+        stroke="#8884d8"
+        name="Passive Income"
+      />
+      <Line
+        type="monotone"
+        dataKey="cpfContributions"
+        stroke="#ffc658"
+        name="CPF Contributions"
+      />
     </ComposedChart>
   );
 };
