@@ -1,11 +1,26 @@
-import React from 'react';
-import FinancialChart from './components/FinancialChart';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import FinancialPlanning from "./pages/FinancialPlanning";
+import SavingsGoals from "./pages/SavingsGoals";
+import InvestmentCalculator from "./pages/InvestmentCalculator";
+import EducationalResources from "./pages/EducationalResources";
 
-const App = () => (
-  <div className="p-8 bg-gray-100 min-h-screen">
-    <h1 className="text-2xl font-bold mb-4">Financial Planning Chart</h1>
-    <FinancialChart />
-  </div>
-);
+function App() {
+  return (
+    <Router>
+      <div>
+        <Navbar /> {Navbar}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/financial-planning" element={<FinancialPlanning />} />
+          <Route path="/savings-goals" element={<SavingsGoals />} />
+          <Route path="/investment-calculator" element={<InvestmentCalculator />} />
+          <Route path="/educational-resources" element={<EducationalResources />} />
+        </Routes>
+      </div>
+    </Router>
+  );
+}
 
 export default App;
