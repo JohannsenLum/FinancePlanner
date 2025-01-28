@@ -1,33 +1,68 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav className="bg-blue-500 p-4 text-white">
-      <ul className="flex space-x-4">
+    <nav className="bg-gradient-to-r from-blue-900/80 via-purple-900/80 to-indigo-900/80 p-4 shadow-lg backdrop-blur-md">
+      <ul className="flex space-x-6 justify-center">
         <li>
-          <Link to="/" className="hover:underline">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `text-white hover:text-blue-200 transition-all duration-300 font-semibold ${
+                isActive ? "underline" : ""
+              }`
+            }
+          >
             Home
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link to="/financial-planning" className="hover:underline">
+          <NavLink
+            to="/financial-planning"
+            className={({ isActive }) =>
+              `text-white hover:text-blue-200 transition-all duration-300 font-semibold ${
+                isActive ? "underline" : ""
+              }`
+            }
+          >
             Financial Planning
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link to="/savings-goals" className="hover:underline">
+          <NavLink
+            to="/savings-goals"
+            className={({ isActive }) =>
+              `text-white hover:text-blue-200 transition-all duration-300 font-semibold ${
+                isActive ? "underline" : ""
+              }`
+            }
+          >
             Savings Goals
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link to="/investment-calculator" className="hover:underline">
+          <NavLink
+            to="/investment-calculator"
+            className={({ isActive }) =>
+              `text-white hover:text-blue-200 transition-all duration-300 font-semibold ${
+                isActive ? "underline" : ""
+              }`
+            }
+          >
             Investment Calculator
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link to="/educational-resources" className="hover:underline">
+          <NavLink
+            to="/educational-resources"
+            className={({ isActive }) =>
+              `text-white hover:text-blue-200 transition-all duration-300 font-semibold ${
+                isActive ? "underline" : ""
+              }`
+            }
+          >
             Educational Resources
-          </Link>
+          </NavLink>
         </li>
       </ul>
     </nav>
