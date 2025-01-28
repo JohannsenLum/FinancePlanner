@@ -4,18 +4,24 @@ import FinancialChart from "./FinancialChart";
 import ToggleButton from "./ToggleButton";
 
 const FinancialPlanner = () => {
-  const [income, setIncome] = useState(5000);
-  const [expenses, setExpenses] = useState(3000);
   const [age, setAge] = useState(30);
-  const [inflationRate, setInflationRate] = useState(2);
-  const [salaryIncrementRate, setSalaryIncrementRate] = useState(3);
+  const [startWorkDate, setStartWorkDate] = useState("2023-01-01");
+  const [income, setIncome] = useState(5000);
+  const [savings, setSavings] = useState(30000);
+  const [cpf, setCpf] = useState(10000);
+  const [bonuses, setBonuses] = useState(1000);
+  const [basicIncomeIncrement, setBasicIncomeIncrement] = useState(2);
+  const [allowanceIncrement, setAllowanceIncrement] = useState(0);
+  const [monthlyExpenses, setMonthlyExpenses] = useState({ food: 500, transport: 200 });
+  const [insurancePremiums, setInsurancePremiums] = useState({ life: 200 });
+  const [monthlyInvestments, setMonthlyInvestments] = useState(1000);
   const [longTermData, setLongTermData] = useState([]);
   const [showSavingsLine, setShowSavingsLine] = useState(true);
 
   const generateLongTermData = () => {
     const data = [];
     let currentIncome = income;
-    let currentExpenses = expenses;
+    let currentExpenses = Object.values(monthlyExpenses).reduce((a, b) => a + b, 0);
     let currentSavings = currentIncome - currentExpenses;
 
     for (let year = age; year <= 100; year++) {
@@ -25,8 +31,8 @@ const FinancialPlanner = () => {
         savings: currentSavings > 0 ? currentSavings : 0,
       });
 
-      currentIncome += currentIncome * (salaryIncrementRate / 100);
-      currentExpenses += currentExpenses * (inflationRate / 100);
+      currentIncome += currentIncome * (basicIncomeIncrement / 100);
+      currentExpenses += currentExpenses * 0.025; // Inflation rate
       currentSavings = currentIncome - currentExpenses;
     }
 
@@ -35,28 +41,35 @@ const FinancialPlanner = () => {
 
   useEffect(() => {
     generateLongTermData();
-  }, [income, expenses, age, inflationRate, salaryIncrementRate]);
+  }, [age, income, monthlyExpenses, basicIncomeIncrement]);
 
   return (
-    <div className="bg-white p-4 rounded shadow">
-      <h2 className="text-xl font-bold mb-4">Financial Planning Chart</h2>
-      <InputForm
-        income={income}
-        setIncome={setIncome}
-        expenses={expenses}
-        setExpenses={setExpenses}
-        age={age}
-        setAge={setAge}
-        inflationRate={inflationRate}
-        setInflationRate={setInflationRate}
-        salaryIncrementRate={salaryIncrementRate}
-        setSalaryIncrementRate={setSalaryIncrementRate}
-      />
-      <ToggleButton
-        showSavingsLine={showSavingsLine}
-        setShowSavingsLine={setShowSavingsLine}
-      />
-      <FinancialChart longTermData={longTermData} showSavingsLine={showSavingsLine} />
+    <div className="min-h-screen bg-gradient-to-r from-blue-900 to-purple-900 p-8">
+      <h1 className="text-3xl font-bold text-white mb-8">Financial Planning</h1>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div>
+          <InputForm
+            age={age} setAge={setAge}
+            startWorkDate={startWorkDate} setStartWorkDate={setStartWorkDate}
+            income={income} setIncome={setIncome}
+            savings={savings} setSavings={setSavings}
+            cpf={cpf} setCpf={setCpf}
+            bonuses={bonuses} setBonuses={setBonuses}
+            basicIncomeIncrement={basicIncomeIncrement} setBasicIncomeIncrement={setBasicIncomeIncrement}
+            allowanceIncrement={allowanceIncrement} setAllowanceIncrement={setAllowanceIncrement}
+            monthlyExpenses={monthlyExpenses} setMonthlyExpenses={setMonthlyExpenses}
+            insurancePremiums={insurancePremiums} setInsurancePremiums={setInsurancePremiums}
+            monthlyInvestments={monthlyInvestments} setMonthlyInvestments={setMonthlyInvestments}
+          />
+        </div>
+        <div>
+          <FinancialChart longTermData={longTermData} showSavingsLine={showSavingsLine} />
+          <ToggleButton
+            showSavingsLine={showSavingsLine}
+            setShowSavingsLine={setShowSavingsLine}
+          />
+        </div>
+      </div>
     </div>
   );
 };
