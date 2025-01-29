@@ -5,15 +5,17 @@ import FinancialPlanning from "./pages/FinancialPlanning";
 import SavingsGoals from "./pages/SavingsGoals";
 import InvestmentCalculator from "./pages/InvestmentCalculator";
 import EducationalResources from "./pages/EducationalResources";
+import MilestonesPage from "./pages/MilestonesPage";
 
 function App() {
   return (
     <Router>
       <div>
-        <Navbar /> {Navbar}
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/financial-planning" element={<FinancialPlanning />} />
+          <Route path="/milestones" element={<MilestonesPage />} /> 
           <Route path="/savings-goals" element={<SavingsGoals />} />
           <Route path="/investment-calculator" element={<InvestmentCalculator />} />
           <Route path="/educational-resources" element={<EducationalResources />} />

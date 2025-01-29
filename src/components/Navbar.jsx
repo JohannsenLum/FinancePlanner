@@ -30,6 +30,18 @@ const Navbar = () => {
         </li>
         <li>
           <NavLink
+            to="/milestones"
+            className={({ isActive }) =>
+              `text-white hover:text-blue-200 transition-all duration-300 font-semibold ${
+                isActive ? "underline" : ""
+              }`
+            }
+          >
+            Milestones
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
             to="/savings-goals"
             className={({ isActive }) =>
               `text-white hover:text-blue-200 transition-all duration-300 font-semibold ${
