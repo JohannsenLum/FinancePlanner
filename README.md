@@ -1,70 +1,63 @@
-# Getting Started with Create React App
+# 💸 Finance Planner
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An all-in-one **personal finance tracking** web app designed to help individuals better plan their finances, visualize expenses, and prepare for major life milestones like **marriage**.
 
-## Available Scripts
+🌐 **Live Site**: [finance-planner-delta.vercel.app](https://finance-planner-delta.vercel.app/)
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## ✨ Current Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- 🏠 **Home**: Introduction and quick navigation to planning tools.
+- 📋 **Financial Planning**:
+    - Enter monthly income and expenses
+    - Allocate budgets
+    - Track and review financial data
+  - 📆 **Monthly Expenses**:
+    - Input recurring monthly costs
+    - View organized expense lists
+  - 📈 **Investments**:
+    - Input investment details
+    - View visual breakdowns via charts
+- 💍 **Marriage Milestone**:
+  - Plan and track financial goals for marriage
+  - Estimate and budget related expenses
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## 🛠 Tech Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Frontend**: React.js
+- **Styling**: Tailwind CSS
+- **Deployment**: Vercel
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🚧 In Progress / Coming Soon
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- 🏡 Housing milestone planning  
+- 🚗 Vehicle purchase planning  
+- 🧓 Retirement roadmap  
+- 🔐 User authentication  
+- 💾 Persistent data storage  
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## 📦 Getting Started
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 1. Clone the repository
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+git clone https://github.com/JohannsenLum/FinancePlanner.git
+cd finance-planner
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 2. Install dependencies
+```
+npm install
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 3. Run the app
+```
+npm start
+```
