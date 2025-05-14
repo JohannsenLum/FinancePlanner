@@ -8,9 +8,9 @@ const InputForm = ({
   totalExpenditure,
 }) => {
   return (
-    <div className="space-y-4">
+    <div className="flex space-x-6">
       {/* Personal Details */}
-      <div className="bg-white/10 p-4 rounded-lg">
+      <div className="bg-white/10 p-4 rounded-lg w-full">
         <h2 className="text-lg font-semibold text-white mb-4">Personal Details</h2>
         <label className="block text-white">
           Age:
@@ -42,8 +42,9 @@ const InputForm = ({
       </div>
 
       {/* Monthly Expenses */}
-      <div className="bg-white/10 p-4 rounded-lg">
+      <div className="bg-white/10 p-4 rounded-lg w-full">
         <h2 className="text-lg font-semibold text-white mb-4">Monthly Expenses</h2>
+        <div className="grid grid-cols-2 gap-4">
         {Object.keys(monthlyExpenses).map((key) => (
           <label key={key} className="block text-white">
             {key.charAt(0).toUpperCase() + key.slice(1)}:
@@ -55,12 +56,14 @@ const InputForm = ({
             />
           </label>
         ))}
+        </div>
         <p className="text-white mt-4">Total Expenditure: ${totalExpenditure}</p>
       </div>
 
       {/* Investments */}
-      <div className="bg-white/10 p-4 rounded-lg">
+      <div className="bg-white/10 p-4 rounded-lg w-full">
         <h2 className="text-lg font-semibold text-white mb-4">Investments</h2>
+        <div className="grid grid-cols-2 gap-4">
         {Object.keys(monthlyInvestments).map((key) => (
           <div key={key} className="block text-white">
             <label>
@@ -83,6 +86,7 @@ const InputForm = ({
             </label>
           </div>
         ))}
+        </div>
       </div>
     </div>
   );
