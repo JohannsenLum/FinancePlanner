@@ -28,10 +28,24 @@ const calculateCPFContributions = (age, income) => {
   return { employeeContribution, employerContribution, totalContribution };
 };
 
+function applyWeddingCost(data, weddingAge, weddingCost) {
+  return data.map(entry => {
+    if (entry.age === weddingAge) {
+      return {
+        ...entry,
+        savings: entry.savings - weddingCost,
+      };
+    }
+    return entry;
+  });
+}
+
 const FinancialPlanner = () => {
   const [age, setAge] = useState(20);
   const [income, setIncome] = useState(5000);
   const [savings, setSavings] = useState(30000);
+  const [includeMarriageCost, setIncludeMarriageCost] = useState(true);
+
   const [monthlyExpenses, setMonthlyExpenses] = useState({
     food: 500,
     transport: 200,
@@ -106,17 +120,24 @@ const FinancialPlanner = () => {
     let currentPassiveIncome = calculatePassiveIncome(monthlyInvestments, investmentGains);
     let currentInvestedAmount = currentInvestments;
   
+    const marriageData = JSON.parse(localStorage.getItem("marriagePlanningData"));
+
     for (let year = age; year <= 100; year++) {
       const cpfContributions = calculateCPFContributions(year, currentIncome);
       const incomeAfterCPF = currentIncome - cpfContributions.employeeContribution;
       const incomeUsed = incomeAfterCPF - currentSavings;
       const shortfall = currentExpenses > incomeAfterCPF + currentPassiveIncome ? currentExpenses - (incomeAfterCPF + currentPassiveIncome) : 0;
   
+      let adjustedSavings = currentSavings;
+      if (includeMarriageCost && marriageData && year === marriageData.marriageAge) {
+        adjustedSavings -= marriageData.totalCost;
+      }
+
       data.push({
         age: year,
         incomeUsed: incomeUsed,
         shortfall: shortfall,
-        savings: currentSavings,
+        savings: adjustedSavings,
         passiveIncome: currentPassiveIncome,
         cpfContributions: cpfContributions.totalContribution,
         investments: currentInvestedAmount, // New field
@@ -139,7 +160,7 @@ const FinancialPlanner = () => {
 
   useEffect(() => {
     generateLongTermData();
-  }, [age, income, savings, monthlyExpenses, monthlyInvestments, investmentGains, monthlyMarriageSavings]);
+  }, [age, income, savings, monthlyExpenses, monthlyInvestments, investmentGains, monthlyMarriageSavings, includeMarriageCost]);
 
   // Save Financial Plan
   const saveFinancialPlan = () => {
@@ -184,8 +205,23 @@ const FinancialPlanner = () => {
         Save Plan
       </button>
 
+      <div className="mb-4 text white">
+        <label className="inline-flex items-center">
+          <input
+            type="checkbox"
+            className="form-checkbox h-5 w-5 text-blue-600"
+            checked={includeMarriageCost}
+            onChange={() => setIncludeMarriageCost(!includeMarriageCost)}
+          />
+          <span className="ml-2 text-white">Include Marriage Cost</span>
+        </label>
+      </div>
+
       <div className="bg-white/10 p-6 rounded-lg">
-        <FinancialChart longTermData={longTermData} />
+        <FinancialChart longTermData={longTermData} 
+          includeMarriageCost={includeMarriageCost}
+          marriageAge={JSON.parse(localStorage.getItem("marriagePlanningData"))?.marriageAge}
+        />
       </div>
     </div>
   );

@@ -1,6 +1,18 @@
-import { ComposedChart, Bar, Line, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from "recharts";
+import {
+  ComposedChart,
+  Bar,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  CartesianGrid,
+  ReferenceDot,
+} from "recharts";
 
-const FinancialChart = ({ longTermData }) => {
+const FinancialChart = ({ longTermData, includeMarriageCost, marriageAge }) => {
+  const marriageDataPoint = longTermData.find((d) => d.age === marriageAge);
+
   return (
     <ComposedChart
       width={800}
@@ -34,6 +46,24 @@ const FinancialChart = ({ longTermData }) => {
         stroke="#ffc658"
         name="CPF Contributions"
       />
+
+      {/* 💍 Wedding Icon */}
+      {includeMarriageCost && marriageAge && marriageDataPoint && (
+        <ReferenceDot
+          x={marriageAge}
+          y={marriageDataPoint.savings}
+          r={10}
+          fill="white"
+          stroke="red"
+          isFront={true}
+          label={{
+            position: "top",
+            offset: 50,
+            value: "💍",
+            fontSize: 20,
+          }}
+        />
+      )}
     </ComposedChart>
   );
 };
