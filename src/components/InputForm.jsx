@@ -2,6 +2,7 @@ const InputForm = ({
   age, setAge,
   income, setIncome,
   savings, setSavings,
+  cpf, setCpf,
   monthlyExpenses, setMonthlyExpenses,
   monthlyInvestments, setMonthlyInvestments,
   investmentGains, setInvestmentGains,
@@ -39,6 +40,15 @@ const InputForm = ({
             className="w-full px-4 py-2 mt-2 bg-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </label>
+        <label className="block text-white mt-4">
+          CPF:
+          <input
+            type="number"
+            value={cpf}
+            onChange={(e) => setCpf(Number(e.target.value))}
+            className="w-full px-4 py-2 mt-2 bg-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </label>
       </div>
 
       {/* Monthly Expenses */}
@@ -61,7 +71,7 @@ const InputForm = ({
       </div>
 
       {/* Investments */}
-      <div className="bg-white/10 p-4 rounded-lg w-full">
+      {/* <div className="bg-white/10 p-4 rounded-lg w-full">
         <h2 className="text-lg font-semibold text-white mb-4">Investments</h2>
         <div className="grid grid-cols-2 gap-4">
         {Object.keys(monthlyInvestments).map((key) => (
@@ -87,7 +97,7 @@ const InputForm = ({
           </div>
         ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

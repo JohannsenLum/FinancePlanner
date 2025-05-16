@@ -44,6 +44,8 @@ const FinancialPlanner = () => {
   const [age, setAge] = useState(20);
   const [income, setIncome] = useState(5000);
   const [savings, setSavings] = useState(30000);
+  const [cpf, setCpf] = useState(10000);
+  const [showCpf, setShowCpf] = useState(true);
   const [includeMarriageCost, setIncludeMarriageCost] = useState(true);
 
   const [monthlyExpenses, setMonthlyExpenses] = useState({
@@ -60,21 +62,6 @@ const FinancialPlanner = () => {
     others: 100,
     insurance: 500,
   });
-  const [monthlyInvestments, setMonthlyInvestments] = useState({
-    growth: 500,
-    dividends: 300,
-    iFast: 200,
-    endowments: 100,
-    others: 50,
-  });
-  const [investmentGains, setInvestmentGains] = useState({
-    growth: 7,
-    dividends: 5,
-    iFast: 6,
-    endowments: 4,
-    others: 3,
-  });
-  const [currentInvestments, setCurrentInvestments] = useState(20000);
   
   const [longTermData, setLongTermData] = useState([]);
   const [monthlyMarriageSavings, setMonthlyMarriageSavings] = useState(0);
@@ -86,14 +73,11 @@ const FinancialPlanner = () => {
       setAge(savedData.age);
       setIncome(savedData.income);
       setSavings(savedData.savings);
+      setCpf(savedData.cpf);
       setMonthlyExpenses(savedData.monthlyExpenses);
-      setMonthlyInvestments(savedData.monthlyInvestments);
-      setInvestmentGains(savedData.investmentGains);
-      setCurrentInvestments(savedData.currentInvestments); // Load investment data
     }
   }, []);
   
-
   // Load Marriage Planning Data
   useEffect(() => {
     const marriageData = JSON.parse(localStorage.getItem("marriagePlanningData"));
@@ -106,28 +90,22 @@ const FinancialPlanner = () => {
 
   const totalExpenditure = Object.values(monthlyExpenses).reduce((a, b) => a + b, 0) + monthlyMarriageSavings;
 
-  const calculatePassiveIncome = (investments, gains) => {
-    return Object.keys(investments).reduce((total, key) => {
-      return total + (investments[key] * 12 * (gains[key] / 100));
-    }, 0);
-  };
-
   const generateLongTermData = () => {
     const data = [];
     let currentIncome = income;
     let currentExpenses = totalExpenditure;
     let currentSavings = savings;
-    let currentPassiveIncome = calculatePassiveIncome(monthlyInvestments, investmentGains);
-    let currentInvestedAmount = currentInvestments;
-  
+    let totalCPF = cpf;
+
     const marriageData = JSON.parse(localStorage.getItem("marriagePlanningData"));
 
     for (let year = age; year <= 100; year++) {
       const cpfContributions = calculateCPFContributions(year, currentIncome);
       const incomeAfterCPF = currentIncome - cpfContributions.employeeContribution;
-      const incomeUsed = incomeAfterCPF - currentSavings;
-      const shortfall = currentExpenses > incomeAfterCPF + currentPassiveIncome ? currentExpenses - (incomeAfterCPF + currentPassiveIncome) : 0;
+      const shortfall = currentExpenses > incomeAfterCPF ? currentExpenses - incomeAfterCPF : 0;
   
+      totalCPF += cpfContributions.totalContribution;
+
       let adjustedSavings = currentSavings;
       if (includeMarriageCost && marriageData && year === marriageData.marriageAge) {
         adjustedSavings -= marriageData.totalCost;
@@ -135,23 +113,16 @@ const FinancialPlanner = () => {
 
       data.push({
         age: year,
-        incomeUsed: incomeUsed,
+        incomeUsed: currentExpenses,
         shortfall: shortfall,
         savings: adjustedSavings,
-        passiveIncome: currentPassiveIncome,
-        cpfContributions: cpfContributions.totalContribution,
-        investments: currentInvestedAmount, // New field
+        cpfContributions: totalCPF,
       });
-  
-      // Simulate investment growth
-      const investmentGrowth = currentInvestedAmount * 0.05; // Assume 5% return
-      currentInvestedAmount += investmentGrowth + Object.values(monthlyInvestments).reduce((a, b) => a + b, 0);
   
       // Adjust values for the next year
       currentIncome += currentIncome * 0.02; // Income grows by 2%
       currentExpenses += currentExpenses * 0.025; // Expenses grow by 2.5%
-      currentSavings += incomeAfterCPF + currentPassiveIncome - currentExpenses;
-      currentPassiveIncome = calculatePassiveIncome(monthlyInvestments, investmentGains);
+      currentSavings += incomeAfterCPF - currentExpenses;
     }
   
     setLongTermData(data);
@@ -160,7 +131,7 @@ const FinancialPlanner = () => {
 
   useEffect(() => {
     generateLongTermData();
-  }, [age, income, savings, monthlyExpenses, monthlyInvestments, investmentGains, monthlyMarriageSavings, includeMarriageCost]);
+  }, [age, income, savings, cpf, monthlyExpenses, monthlyMarriageSavings, includeMarriageCost]);
 
   // Save Financial Plan
   const saveFinancialPlan = () => {
@@ -168,9 +139,8 @@ const FinancialPlanner = () => {
       age,
       income,
       savings,
+      cpf,
       monthlyExpenses,
-      monthlyInvestments,
-      investmentGains,
     };
     localStorage.setItem("financialPlanningData", JSON.stringify(financialData));
     alert("Financial plan saved successfully!");
@@ -190,11 +160,9 @@ const FinancialPlanner = () => {
         age={age} setAge={setAge}
         income={income} setIncome={setIncome}
         savings={savings} setSavings={setSavings}
+        cpf={cpf} setCpf={setCpf}
         monthlyExpenses={monthlyExpenses} setMonthlyExpenses={setMonthlyExpenses}
-        monthlyInvestments={monthlyInvestments} setMonthlyInvestments={setMonthlyInvestments}
-        investmentGains={investmentGains} setInvestmentGains={setInvestmentGains}
         totalExpenditure={totalExpenditure}
-        currentInvestments={currentInvestments} setCurrentInvestments={setCurrentInvestments}
       />
       </div>
 
@@ -217,10 +185,23 @@ const FinancialPlanner = () => {
         </label>
       </div>
 
+      <div className="mb-4 text white">
+        <label className="inline-flex items-center">
+          <input
+            type="checkbox"
+            className="form-checkbox h-5 w-5 text-blue-600"
+            checked={showCpf}
+            onChange={() => setShowCpf(!showCpf)}
+          />
+          <span className="ml-2 text-white">Show CPF Contributions</span>
+        </label>
+      </div>
+
       <div className="bg-white/10 p-6 rounded-lg">
         <FinancialChart longTermData={longTermData} 
           includeMarriageCost={includeMarriageCost}
           marriageAge={JSON.parse(localStorage.getItem("marriagePlanningData"))?.marriageAge}
+          showCpf={showCpf}
         />
       </div>
     </div>

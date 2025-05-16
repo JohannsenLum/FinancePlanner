@@ -10,7 +10,9 @@ import {
   ReferenceDot,
 } from "recharts";
 
-const FinancialChart = ({ longTermData, includeMarriageCost, marriageAge }) => {
+import React, { useState } from "react";
+
+const FinancialChart = ({ longTermData, includeMarriageCost, marriageAge, showCpf}) => {
   const marriageDataPoint = longTermData.find((d) => d.age === marriageAge);
 
   return (
@@ -31,28 +33,23 @@ const FinancialChart = ({ longTermData, includeMarriageCost, marriageAge }) => {
         type="monotone"
         dataKey="savings"
         stroke="#82ca9d"
-        strokeDasharray="5 5"
         name="Savings"
       />
-      <Line
-        type="monotone"
-        dataKey="passiveIncome"
-        stroke="#8884d8"
-        name="Passive Income"
-      />
-      <Line
-        type="monotone"
-        dataKey="cpfContributions"
-        stroke="#ffc658"
-        name="CPF Contributions"
-      />
+      {showCpf && (
+        <Line
+          type="monotone"
+          dataKey="cpfContributions"
+          stroke="#ffc658"
+          name="CPF Contributions"
+        />
+      )}
 
       {/* 💍 Wedding Icon */}
       {includeMarriageCost && marriageAge && marriageDataPoint && (
         <ReferenceDot
           x={marriageAge}
           y={marriageDataPoint.savings}
-          r={10}
+          r={5}
           fill="white"
           stroke="red"
           isFront={true}
