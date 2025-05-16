@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import InputForm from "./InputForm";
 import FinancialChart from "./FinancialChart";
 
+const MONTHS_IN_YEAR = 12;
+const INFLATION_RATE = 0.025; // 2.5% inflation rate
+const INCOME_GROWTH_RATE = 0.02; // 2% income growth rate
+
 const cpfContributionRates = {
   below55: { employee: 0.20, employer: 0.17 },
   above55to60: { employee: 0.13, employer: 0.13 },
@@ -102,27 +106,28 @@ const FinancialPlanner = () => {
     for (let year = age; year <= 100; year++) {
       const cpfContributions = calculateCPFContributions(year, currentIncome);
       const incomeAfterCPF = currentIncome - cpfContributions.employeeContribution;
-      const shortfall = currentExpenses > incomeAfterCPF ? currentExpenses - incomeAfterCPF : 0;
   
       totalCPF += cpfContributions.totalContribution;
 
+      currentSavings += incomeAfterCPF - currentExpenses;
       let adjustedSavings = currentSavings;
       if (includeMarriageCost && marriageData && year === marriageData.marriageAge) {
         adjustedSavings -= marriageData.totalCost;
       }
 
+      //const shortfall = adjustedSavings < 0 ? -adjustedSavings : 0;
+
       data.push({
         age: year,
         incomeUsed: currentExpenses,
-        shortfall: shortfall,
+        //shortfall: shortfall,
         savings: adjustedSavings,
         cpfContributions: totalCPF,
       });
   
       // Adjust values for the next year
-      currentIncome += currentIncome * 0.02; // Income grows by 2%
-      currentExpenses += currentExpenses * 0.025; // Expenses grow by 2.5%
-      currentSavings += incomeAfterCPF - currentExpenses;
+      currentIncome += currentIncome * INCOME_GROWTH_RATE; // Income grows by 2%
+      currentExpenses += currentExpenses * INFLATION_RATE; // Expenses grow by 2.5%
     }
   
     setLongTermData(data);
